@@ -1,7 +1,5 @@
 <?php
-
 namespace Slub\SlubEvents\ViewHelpers\Be;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -126,6 +124,7 @@ class FunctionBarViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBack
      */
     protected function getNewIcon($table, array $row)
     {
+
         $params .= '&edit[' . $table . '][' . $row['storagePid'] . ']=new';
         $title = LocalizationUtility::translate('be.newEvent', 'slub_events', $arguments = null);
         $icon = '<a href="#" onclick="' .
@@ -147,12 +146,12 @@ class FunctionBarViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBack
      * Returns the New Icon with link
      *
      * @param string $table Table name
-     * @param array  $row   Data row
-     *
+     * @param array $row Data row
      * @return string html output
      */
     protected function getHideIcon($table, array $row)
     {
+
         $doc = $this->getDocInstance();
         if ($row['hidden']) {
             $title = LocalizationUtility::translate('be.unhideEvent', 'slub_events', $arguments = null);
@@ -201,11 +200,13 @@ class FunctionBarViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBack
      */
     protected function getGeniusBarIcon(\Slub\SlubEvents\Domain\Model\Event $event)
     {
+
         if ($event !== null) {
             if ($event->getGeniusBar()) {
                 return '<span title="Wissensbar-Termin" class="geniusbar">W&nbsp;</span>';
             }
         }
+
     }
 
     /**
@@ -215,7 +216,6 @@ class FunctionBarViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBack
      */
     protected function getDatePickerIcon()
     {
-        return $this->iconFactory->getIcon('actions-edit-pick-date', Icon::SIZE_SMALL);
 
         return $this->getSpriteIcon(
             'actions-edit-pick-date',
@@ -225,6 +225,7 @@ class FunctionBarViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBack
                 'class' => 't3-icon t3-icon-actions t3-icon-actions-edit t3-icon-edit-pick-date',
             ]
         );
+
     }
 
 
@@ -232,25 +233,22 @@ class FunctionBarViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBack
      * Renders a record list as known from the TYPO3 list module
      * Note: This feature is experimental!
      *
-     * @param string                              $icon
-     * @param \Slub\SlubEvents\Domain\Model\Event $event
-     *
+     * @param icon string
+     * @param event \Slub\SlubEvents\Domain\Model\Event
      * @return string the rendered record list
      */
     public function render($icon = 'edit', \Slub\SlubEvents\Domain\Model\Event $event = null)
     {
+
         if ($event !== null) {
             $row['uid'] = $event->getUid();
             $row['title'] = $event->getTitle();
             $row['hidden'] = $event->getHidden();
         }
 
-        $frameworkConfiguration = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-        );
+        $frameworkConfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
         $row['storagePid'] = $frameworkConfiguration['persistence']['storagePid'];
 
-        $content = '';
         switch ($icon) {
             case 'new':
                 $content = $this->getNewIcon('tx_slubevents_domain_model_event', $row);
@@ -270,7 +268,6 @@ class FunctionBarViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBack
         }
 
         return $content;
-    }
 
     /**
      * Get the requested Sprite Icon

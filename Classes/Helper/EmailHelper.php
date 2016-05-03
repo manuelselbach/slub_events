@@ -59,7 +59,7 @@ class EmailHelper
     ) {
 
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $emailViewHTML */
-        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $emailViewHTML */
         $emailViewHTML = $objectManager->get(\TYPO3\CMS\Fluid\View\StandaloneView::class);
@@ -86,7 +86,7 @@ class EmailHelper
         $emailViewHTML->setPartialRootPaths([$partialRootPath]);
 
         /** @var $message \TYPO3\CMS\Core\Mail\MailMessage */
-        $message = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
+        $message = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
         $message->setTo($recipient)
             ->setFrom($sender)
             ->setCharset('utf-8')
@@ -200,6 +200,8 @@ class EmailHelper
         $text = preg_replace('/[\t]{1,}/', '', $text);
         // remove more than one empty line
         $text = preg_replace('/[\n]{3,}/', "\n\n", $text);
+        // yes, really do CRLF to let quoted printable work as expected!
+        $text = preg_replace('/[\n]/', "\r\n", $text);
         // remove all remaining html tags
         $text = strip_tags($text);
 
